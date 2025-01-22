@@ -15,8 +15,10 @@ class JokeController extends Controller
         //
         $jokes = Joke::all();
         return response()->json([
-            'jokes' => $jokes
-        ]);
+            'status' => true,
+	    'message' => 'Jokes loaded',
+	    'jokes' => $jokes
+        ], 200);
     }
 
     /**
@@ -52,6 +54,20 @@ class JokeController extends Controller
     public function update(Request $request, string $id)
     {
         //
+	$jokeToUpdate = Joke::find($id);
+	if($jokeToUpdate){
+	    $jokeToUpdate->update($request->all());
+	    return response()->json([
+			'status' => true,
+			'message' => 'Joke updated succesful',
+			'joke' => $jokeToUpdate
+			], 200);
+	} else {
+	   return response()->json([
+			'status' => false,
+			'message' => 'Joke not found'
+			], 404);
+	}
     }
 
     /**
@@ -60,5 +76,20 @@ class JokeController extends Controller
     public function destroy(string $id)
     {
         //
+	$jokeDelete = Joke::find($id);
+        if($jokeDelete){
+            $jokeDelete->delete();
+	    // Delete all datas
+	    //Joke::where('id', '>', '1')->delete();
+            return response()->json([
+                'status' => true,
+                'message' => 'Joke deleted successfully!'
+            ], 200);
+        }else{
+            return response()->json([
+                'status' => false,
+                'message' => 'Joke not found!'
+            ], 404);
+        }
     }
 }

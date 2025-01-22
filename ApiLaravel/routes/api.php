@@ -13,3 +13,6 @@ use App\Http\Controllers\JokeController;
 Route::get('/jokes', [JokeController::class, 'index']);
 Route::get('/jokes/{id}', [JokeController::class, 'show']);
 Route::post('/jokes', [JokeController::class, 'store']);
+Route::put('/jokes/{id}', [JokeController::class, 'update']);
+Route::delete('/jokes/{id}', [JokeController::class, 'destroy']);
+
